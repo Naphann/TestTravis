@@ -1,6 +1,6 @@
 sudo: true
 
-language: nodejs
+language: node_js
 
 services:
   - docker
@@ -9,16 +9,24 @@ env:
   DOCKER_COMPOSE_VERSION: 1.13.0
 
 before_install:
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-engine
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - chmod +x build-test.sh
 
+before_script:
+  - cd client
+  - npm install
+  - cd ..
+
 script:
   - docker -v
   - docker-compose --version
   - docker-compose build
   - docker-compose up -d
-  - docker build ./client -t test
-  - docker run test
+  # - docker build ./client -t test
+  # - docker run test
+  - node client/client.js
