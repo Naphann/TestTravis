@@ -1,0 +1,13 @@
+version: '3'
+services:
+  node-1:
+    build: ./node-1
+
+  node-2:
+    build: ./node-2
+
+  node-3:
+    build: ./node-3
+
+  # client:
+    # build: ./client
